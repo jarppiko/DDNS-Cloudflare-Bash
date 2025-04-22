@@ -51,8 +51,8 @@ if [ "${what_ip}" == "internal" ] && [ "${proxied}" == "true" ]; then
   exit 0
 fi
 
-### Valid IPv4 Regex
-REIP='^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])\.){3}(25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])$'
+### Valid IPv4 octet Regex
+RX='([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
 
 ### Get external ip from https://checkip.amazonaws.com
 if [ "${what_ip}" == "external" ]; then
@@ -61,7 +61,7 @@ if [ "${what_ip}" == "external" ]; then
     echo "Error! Can't get external ip from https://checkip.amazonaws.com"
     exit 0
   fi
-  if ! [[ "$ip" =~ $REIP ]]; then
+  if ! [[ "$ip" =~ ^$RX\.$RX\.$RX\.$RX$ ]]; then
     echo "Error! IP Address returned was invalid!"
     exit 0
   fi
